@@ -1,2 +1,27 @@
+# Obsidian
+.obsidian/
+
+# Node
 node_modules/
-*.map
+npm-debug.log
+package-lock.json
+yarn.lock
+
+# Build output
+main.js
+main.js.map
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local

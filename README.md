@@ -1,106 +1,241 @@
-# Note Synthesizer — Obsidian Plugin
+# Note Synthesizer
 
-A TypeScript Obsidian plugin that synthesizes multiple notes using an AI API (Anthropic or OpenAI-compatible).
+An Obsidian plugin that synthesizes multiple notes by identifying overlapping sections and unique insights. Perfect for integrating information across technical documents, research notes, and knowledge bases.
 
 ## Features
 
-- **Settings Panel**: Configure API endpoint, model name, API key, and summary length
-- **File Picker Command**: Select 2+ markdown files from your vault
-- **Synthesis Engine**: Sends file contents to API and creates timestamped output note
-- **Error Handling**: Graceful failures with retry options
+- **Multi-note synthesis**: Select 2+ markdown files and generate an integrated summary
+- **Overlap detection**: Automatically identifies and merges redundant content
+- **Unique insights highlighting**: Preserves original perspectives from each source
+- **Flexible API support**: Works with Claude API (default) or any OpenAI-compatible endpoint
+- **Advanced configuration**: Full control over API endpoint, model selection, and output length
+- **Encrypted key storage**: API keys stored securely in Obsidian settings
+- **Cross-platform**: Works on Windows, macOS, and Linux
 
-## Installation & Setup
+## Installation
 
-### Build from Source
+### From Obsidian Community Plugins (Coming Soon)
+1. Open Obsidian Settings → Community Plugins
+2. Search for "Note Synthesizer"
+3. Click Install
+4. Enable the plugin
 
+### Manual Installation
+1. Download the latest release from [GitHub Releases](https://github.com/TX-220/note-synthesizer/releases)
+2. Extract the zip file
+3. Copy the folder to `VaultFolder/.obsidian/plugins/note-synthesizer/`
+4. Reload Obsidian or restart the app
+5. Enable "Note Synthesizer" in Settings → Community Plugins
+
+### Development Installation
 ```bash
-cd ~/projects/note-synthesizer
+git clone https://github.com/TX-220/note-synthesizer.git
+cd note-synthesizer
 npm install
-npm run build
-```
-
-This produces `main.js` (14KB bundled + minified).
-
-### Install to Obsidian Vault
-
-1. Create or open an Obsidian vault at `~/obsidian-vault` (or your preferred location)
-2. Install the plugin:
-   ```bash
-   mkdir -p ~/obsidian-vault/.obsidian/plugins/note-synthesizer
-   cp main.js manifest.json ~/obsidian-vault/.obsidian/plugins/note-synthesizer/
-   ```
-3. Open Obsidian → Settings → Community Plugins → Enable "Note Synthesizer"
-
-### Configuration
-
-1. Open Obsidian Settings → "Note Synthesizer"
-2. Configure:
-   - **API Endpoint**: `https://api.anthropic.com/v1/messages` (or compatible OpenAI endpoint)
-   - **Model Name**: `claude-3-5-sonnet-20241022` (or your preferred model)
-   - **API Key**: Your Anthropic or OpenAI API key (stored securely by Obsidian)
-   - **Summary Length**: Brief, Medium, or Comprehensive
-
-## Usage
-
-1. Run command: **"Synthesize Notes"** (Ctrl/Cmd+P → search "Synthesize")
-2. Select 2+ markdown files from the checklist
-3. Click "Synthesize"
-4. A new note `Synthesis_YYYY-MM-DD_HH-MM-SS.md` is created at vault root with the synthesis
-
-## Development
-
-### Dev Mode with Hot Reload
-
-```bash
 npm run dev
 ```
 
-Then symlink the plugin into your vault:
+Then copy the plugin folder to your vault's `.obsidian/plugins/` directory.
+
+## Usage
+
+### Basic Workflow
+
+1. **Configure API Settings**
+   - Open Obsidian Settings → Note Synthesizer
+   - Enter your API key
+   - (Optional) Adjust model, endpoint, and summary length
+
+2. **Run Synthesis**
+   - Press `Ctrl+P` (or `Cmd+P` on Mac) to open command palette
+   - Search for "Synthesize Notes"
+   - Select 2 or more markdown files from your vault
+   - Click "Synthesize"
+   - A new timestamped note is created with the synthesis
+
+3. **Review Output**
+   - The generated note includes source file list and synthesis timestamp
+   - Copy/edit as needed in your workflow
+
+### Configuration
+
+#### API Endpoint
+- **Default**: `https://api.anthropic.com/v1/messages` (Anthropic Claude)
+- **For local LLM**: `http://localhost:11434/v1/messages` (Ollama format)
+- **Custom**: Any OpenAI-compatible endpoint
+
+#### Model Name
+- **Claude (Anthropic)**: `claude-3-5-sonnet-20241022`, `claude-3-opus-20240229`
+- **Local (Ollama)**: `llama2`, `mistral`, `neural-chat`, etc.
+- Fully customizable—enter any model your endpoint supports
+
+#### API Key
+- Encrypted in Obsidian settings
+- Required for any API call
+- Does NOT store in plaintext
+
+#### Summary Length
+- **Brief**: 2-3 paragraphs (default)
+- **Medium**: 1-2 pages
+- **Comprehensive**: Detailed with subsections
+
+## API Configuration Examples
+
+### Anthropic Claude (Default)
+```
+Endpoint: https://api.anthropic.com/v1/messages
+Model: claude-3-5-sonnet-20241022
+API Key: sk-ant-... (from https://console.anthropic.com)
+```
+
+### Local Ollama
+```
+Endpoint: http://localhost:11434/v1/messages
+Model: llama2 (or mistral, neural-chat, etc.)
+API Key: (can be empty or any string)
+```
+
+## Synthesis Process
+
+The plugin:
+1. Reads all selected markdown files
+2. Combines their content into a single document
+3. Sends to your configured API with a synthesis prompt
+4. Prompt instructs the model to:
+   - Identify overlapping sections and merge them
+   - Extract unique insights from each source
+   - Format output according to selected length
+5. Creates a new timestamped note with the synthesis
+6. Opens the note in your active editor
+
+## Supported Models
+
+### Anthropic Claude
+- claude-3-5-sonnet-20241022 (recommended for balance)
+- claude-3-opus-20240229 (best quality, slower)
+- claude-3-haiku-20240307 (fastest, lower quality)
+
+### Open Source (via Ollama, LM Studio, vLLM)
+- llama2
+- mistral
+- neural-chat
+- phi
+- Any model your local setup supports
+
+## Troubleshooting
+
+### "API key not configured"
+- Settings → Note Synthesizer
+- Enter your API key in the "API Key" field
+- Save and retry
+
+### "API Error: 401"
+- Check your API key is correct
+- Verify it has API access permissions
+- For Anthropic: https://console.anthropic.com/account/keys
+
+### "API Error: 404"
+- Verify API endpoint URL is correct
+- If using local LLM, ensure it's running: `ollama serve`
+- Check model name matches your endpoint
+
+### "Failed to read [filename], skipping"
+- Ensure file exists and is readable
+- Check file is valid markdown (.md)
+- Retry operation
+
+### Plugin doesn't appear in Community Plugins
+- Reload Obsidian or restart the app
+- Check Settings → Community Plugins → Installed, toggle off/on
+
+## Development
+
+### Prerequisites
+- Node.js 16+
+- npm or yarn
+- Obsidian installed (for testing)
+
+### Build
 ```bash
-ln -s ~/projects/note-synthesizer ~/obsidian-vault/.obsidian/plugins/note-synthesizer
+npm run build  # Production build (minified)
+npm run dev    # Development build (watch mode)
 ```
 
-Obsidian will reload the plugin when `main.js` changes.
+### Testing
+1. Create a test vault with sample markdown files
+2. Copy the built plugin to `.obsidian/plugins/note-synthesizer/`
+3. Enable the plugin in Obsidian Settings
+4. Run "Synthesize Notes" command with test files
 
-### File Structure
+## Architecture
 
 ```
-src/
-├── main.ts              # Plugin entry point, command registration, synthesis orchestration
-├── types.ts             # Shared interfaces (Settings, ApiRequest, ApiResponse)
-├── settings.ts          # Settings UI panel
-├── synthesize-modal.ts   # File picker modal + error modal
-└── api-client.ts        # HTTP client using Obsidian's requestUrl API
+main.ts
+├── NoteSynthesizerPlugin (main plugin class)
+│   ├── Command: "Synthesize Notes"
+│   ├── File Picker Modal
+│   ├── Synthesis API caller
+│   └── Output note generator
+├── FilePickerModal (UI for file selection)
+└── NoteSynthesizerSettingTab (settings UI)
 ```
 
-### Key Design Decisions
+## Security
 
-- **Obsidian requestUrl API**: Bypasses CORS, works on mobile
-- **Timestamp filenames**: Ensures unique output files
-- **Immutable settings**: Settings stored in plugin data (encrypted by Obsidian on device)
-- **Skip-on-error**: If a file can't be read, logs warning and continues with others
+- API keys are stored in Obsidian's secure data store (encrypted at rest)
+- No API calls are made without explicit user action
+- No telemetry or external tracking
+- Open source—audit the code anytime
 
-## API Support
+## License
 
-Works with:
-- **Anthropic Claude API** (primary target)
-- **OpenAI-compatible APIs** (same `/v1/messages` format)
+**MIT License**
 
-System prompt adjusts based on selected summary length.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for full details.
 
-## Testing
+### Summary
+- ✅ Free to use, modify, and distribute
+- ✅ Commercial use permitted
+- ✅ Must include license and copyright notice
+- ✅ No warranty or liability
 
-To test in Obsidian:
+### Full License Text
+```
+MIT License
 
-1. Create or open a vault
-2. Create a few test markdown files with different content
-3. Enable the plugin in Community Plugins
-4. Run "Synthesize Notes" command
-5. Select 2+ files and synthesize
-6. Verify the output note is created and opens in editor
+Copyright (c) 2024 Viktor
 
-## Build Output
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-- `main.js` (14KB): Bundled, minified plugin code
-- `manifest.json` (287B): Plugin metadata
-- Requires: Obsidian 0.15.0+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## Support
+
+Found a bug or have a feature request?
+- [GitHub Issues](https://github.com/TX-220/note-synthesizer/issues)
+- [GitHub Discussions](https://github.com/TX-220/note-synthesizer/discussions)
+
+## Changelog
+
+### v1.0.0 (Initial Release)
+- Multi-note file picker
+- Synthesis with overlap detection
+- Configurable API endpoint and model
+- Encrypted API key storage
+- Summary length options
+- Cross-platform support (Windows, macOS, Linux)
