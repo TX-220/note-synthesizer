@@ -43,8 +43,7 @@ export default class NoteSynthesizerPlugin extends Plugin {
   async runSynthesis(files: TFile[]): Promise<void> {
     const fileNames = files.map((f) => f.name).join(', ');
 
-    try {
-      new Notice(`Synthesizing ${files.length} notes...`);
+    const progressNotice = new Notice(`Synthesizing ${files.length} notes...`, 0);
 
       const fileContents: string[] = [];
       for (const file of files) {
@@ -74,17 +73,21 @@ export default class NoteSynthesizerPlugin extends Plugin {
         userContent
       );
 
+      progressNotice.hide();
+
       const timestamp = this.getTimestamp();
+      const now = new Date();
       const outputFileName = `Synthesis_${timestamp}.md`;
-      const outputContent = `# Synthesis: ${fileNames}\n\n${synthesis}`;
+      const outputContent = `# Synthesis: ${fileNames}\n\n_Generated: ${now.toLocaleString()}_\n\n${synthesis}`;
 
       const newFile = await this.app.vault.create(outputFileName, outputContent);
       await this.app.workspace.getLeaf().openFile(newFile);
 
-      new Notice(`Synthesis complete: ${outputFileName}`);
+      new Notice('Synthesis complete. New note created.');
     } catch (error) {
+      progressNotice.hide();
       const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred';
-      new ErrorModal(this.app, errorMsg, () => this.runSynthesis(files)).open();
+      new ErrorModal(this.app, `Synthesis failed: ${errorMsg}`, () => this.runSynthesis(files)).open();
     }
   }
 

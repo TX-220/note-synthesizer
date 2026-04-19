@@ -50,12 +50,25 @@ export async function sendToApi(
       throw new Error(errorMessage);
     }
 
-    const data: ApiResponse = response.json;
-    if (!data.content || data.content.length === 0) {
-      throw new Error('Empty response from API');
+    const data: any = response.json;
+
+    // Handle Anthropic format
+    if (data.content && Array.isArray(data.content)) {
+      const textBlock = data.content.find((block: any) => block.type === 'text');
+      if (textBlock && textBlock.text) {
+        return textBlock.text;
+      }
     }
 
-    return data.content[0].text;
+    // Handle OpenAI format
+    if (data.choices && Array.isArray(data.choices)) {
+      const choice = data.choices[0];
+      if (choice.message && choice.message.content) {
+        return choice.message.content;
+      }
+    }
+
+    throw new Error('Unexpected API response format');
   } catch (error) {
     if (error instanceof Error) {
       throw error;
