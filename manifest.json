@@ -1,0 +1,11 @@
+{
+  "id": "note-synthesizer",
+  "name": "Note Synthesizer",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Synthesize multiple notes using an AI API endpoint",
+  "author": "User",
+  "authorUrl": "https://example.com",
+  "fundingUrl": "",
+  "isDesktopOnly": false
+}
