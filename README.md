@@ -189,7 +189,7 @@ main.ts
 
 ## Author
 
-TX-220 — Concept, design, direction. Claude (Anthropic) — Implementation. Claude Code & Claude Desktop — Development.
+TX-220 — Concept, design, direction. Claude (Anthropic) — Implementation. [Claude Code](https://claude.com/claude-code) & Claude Desktop — Development.
 
 ## License
 
