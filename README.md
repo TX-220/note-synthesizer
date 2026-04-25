@@ -1,9 +1,5 @@
 # Note Synthesizer
 
-## Author
-
-TX-220 — Concept, design, direction. Claude (Anthropic) — Implementation. Claude Code & Claude Desktop — Development. Gemini (UI/styling) — *dendrite, nodebook only*.
-
 An Obsidian plugin that synthesizes multiple notes by identifying overlapping sections and unique insights. Perfect for integrating information across technical documents, research notes, and knowledge bases.
 
 ## Features
@@ -190,6 +186,10 @@ main.ts
 - No API calls are made without explicit user action
 - No telemetry or external tracking
 - Open source—audit the code anytime
+
+## Author
+
+TX-220 — Concept, design, direction. Claude (Anthropic) — Implementation. Claude Code & Claude Desktop — Development.
 
 ## License
 
