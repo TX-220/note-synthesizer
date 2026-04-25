@@ -1,6 +1,8 @@
 # Note Synthesizer
 
-**Created by TX-220 & Claude**
+## Author
+
+TX-220 — Concept, design, direction. Claude (Anthropic) — Implementation. Claude Code & Claude Desktop — Development. Gemini (UI/styling) — *dendrite, nodebook only*.
 
 An Obsidian plugin that synthesizes multiple notes by identifying overlapping sections and unique insights. Perfect for integrating information across technical documents, research notes, and knowledge bases.
 
@@ -191,40 +193,7 @@ main.ts
 
 ## License
 
-**MIT License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for full details.
-
-### Summary
-- ✅ Free to use, modify, and distribute
-- ✅ Commercial use permitted
-- ✅ Must include license and copyright notice
-- ✅ No warranty or liability
-
-### Full License Text
-```
-MIT License
-
-Copyright (c) 2026 TX-220 & Claude
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+MIT — See [LICENSE](LICENSE) file for details.
 
 ## Support
 
